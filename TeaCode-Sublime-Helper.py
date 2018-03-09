@@ -53,9 +53,6 @@ class ExpandCommand(sublime_plugin.TextCommand):
 		cursorPosition = j['cursorPosition']
 		self.replaceText(edit, text, cursorPosition)
 
-	def executeCommand(self, command):
-		return 0
-
 	def run(self, edit):
 		filename = self.view.file_name()
 
