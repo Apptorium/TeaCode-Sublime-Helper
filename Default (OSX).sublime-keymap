@@ -3,6 +3,6 @@
         "keys": [
             "super+ctrl+e"
         ], 
-        "command": "expand", 
+        "command": "expand"
     }
 ]
