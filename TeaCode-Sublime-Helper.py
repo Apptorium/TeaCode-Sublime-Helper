@@ -1,6 +1,6 @@
 import sublime, sublime_plugin, os.path, subprocess, json
 
-class ExpandCommand(sublime_plugin.TextCommand):
+class ExpandWithTeacodeCommand(sublime_plugin.TextCommand):
 
 	def getCursorPosition(self):
 		for region in self.view.sel():
