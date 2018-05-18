@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, os.path, subprocess, json
+import sublime, sublime_plugin, os.path, subprocess, json, re
 
 class ExpandWithTeacodeCommand(sublime_plugin.TextCommand):
 
@@ -63,7 +63,7 @@ class ExpandWithTeacodeCommand(sublime_plugin.TextCommand):
 
 		text = self.getTextFromBeginningOfLineToCursor()
 
-		command = ["osascript", "-l", "JavaScript", "-e", "Application('TeaCode').expandAsJson('" + text + "', { 'extension': '" + extension + "' })"]
+		command = ["osascript", "-l", "JavaScript", "-e", "Application('TeaCode').expandAsJson('" + re.escape(text) + "', { 'extension': '" + re.escape(extension) + "' })"]
 		session = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 		stdout, stderr = session.communicate()
 
