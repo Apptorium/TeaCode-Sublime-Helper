@@ -60,9 +60,7 @@ class ExpandWithTeacodeCommand(sublime_plugin.TextCommand):
 			filename = ""
 
 		extension = os.path.splitext(filename)[1][1:]
-
 		text = self.getTextFromBeginningOfLineToCursor()
-
 		command = ["osascript", "-l", "JavaScript", "-e", "Application('TeaCode').expandAsJson('" + re.escape(text) + "', { 'extension': '" + re.escape(extension) + "' })"]
 		session = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 		stdout, stderr = session.communicate()
