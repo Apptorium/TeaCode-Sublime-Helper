@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, os.path, subprocess, json, re
+import sublime, sublime_plugin, os.path, subprocess, json
 
 class ExpandWithTeacodeCommand(sublime_plugin.TextCommand):
 
@@ -53,15 +53,21 @@ class ExpandWithTeacodeCommand(sublime_plugin.TextCommand):
 		cursorPosition = j['cursorPosition']
 		self.replaceText(edit, text, cursorPosition)
 
+	def escapeString(self, string):
+		string.replace("\\", "\\\\")
+		string.replace("\\t", "\\\\t")
+		string.replace("'", "\\\'")
+		return string.replace("\"", "\\\"")
+
 	def run(self, edit):
 		filename = self.view.file_name()
-
 		if filename is None:
 			filename = ""
 
 		extension = os.path.splitext(filename)[1][1:]
 		text = self.getTextFromBeginningOfLineToCursor()
-		command = ["osascript", "-l", "JavaScript", "-e", "Application('TeaCode').expandAsJson('" + re.escape(text) + "', { 'extension': '" + re.escape(extension) + "' })"]
+
+		command = ["osascript", "-l", "JavaScript", "-e", "Application(\"TeaCode\").expandAsJson(\"" + self.escapeString(text) + "\", { \"extension\": \"" + self.escapeString(extension) + "\" })"]
 		session = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 		stdout, stderr = session.communicate()
 
